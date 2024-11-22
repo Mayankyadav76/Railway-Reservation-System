@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Sign Up - Railway Reservation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://images.unsplash.com/photo-1474487548417-781cb71495f3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8dHJhaW58fHx8fHwxNjg2NTk0NjE5&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1080');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            background-color: rgba(0, 48, 73, 0.9);
+            color: white;
+            text-align: center;
+            padding: 1em;
+            margin-bottom: 20px;
+            border-radius: 5px 5px 0 0;
+        }
+        nav {
+            background-color: rgba(0, 48, 73, 0.7);
+            padding: 10px;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: left;
+        }
+        nav ul li {
+            margin: 0 10px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        form {
+            display: grid;
+            gap: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #FFA500;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #FF8C00;
+        }
+        .form-switch {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .form-switch a {
+            color: #003049;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .form-switch a:hover {
+            text-decoration: underline;
+        }
+        #signupForm {
+            display: none;
+        }
+        #forgotPasswordForm {
+            display: none;
+        }
+        .error-message {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        .success-message {
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Railway Reservation System</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <!-- <li><a href="search-trains.html">Search Trains</a></li>
+                <li><a href="booking.html">Book a Ticket</a></li>
+                <li><a href="pnr-status.html">PNR Status</a></li>
+                <li><a href="login.html">Login</a></li> -->
+            </ul>
+        </nav>
+        <div id="loginForm">
+            <h2>Login</h2>
+            <form id="loginFormElement">
+                <div class="error-message" id="loginError"></div>
+                <label for="loginEmail">Email:</label>
+                <input type="email" id="loginEmail" name="email" required>
+                
+                <label for="loginPassword">Password:</label>
+                <input type="password" id="loginPassword" name="password" required>
+                
+                <button type="submit">Login</button>
+            </form>
+            <div class="form-switch">
+                <a href="#" id="showSignup">Don't have an account? Sign up</a>
+            </div>
+            <div class="form-switch">
+                <a href="#" id="showForgotPassword">Forgot Password?</a>
+            </div>
+        </div>
+        
+        <div id="signupForm">
+            <h2>Sign Up</h2>
+            <form id="signupFormElement">
+                <div class="success-message" id="signupSuccess"></div>
+                <div class="error-message" id="signupError"></div>
+                <label for="signupName">Full Name:</label>
+                <input type="text" id="signupName" name="name" required>
+                
+                <label for="signupEmail">Email:</label>
+                <input type="email" id="signupEmail" name="email" required>
+                
+                <label for="signupPassword">Password:</label>
+                <input type="password" id="signupPassword" name="password" required>
+                
+                <label for="signupConfirmPassword">Confirm Password:</label>
+                <input type="password" id="signupConfirmPassword" name="confirmPassword" required>
+                
+                <button type="submit">Sign Up</button>
+            </form>
+            <div class="form-switch">
+                <a href="#" id="showLogin">Already have an account? Login</a>
+            </div>
+        </div>
+        
+        <div id="forgotPasswordForm">
+            <h2>Forgot Password</h2>
+            <form id="forgotPasswordFormElement">
+                <div class="success-message" id="forgotPasswordSuccess"></div>
+                <div class="error-message" id="forgotPasswordError"></div>
+                <label for="forgotPasswordEmail">Email:</label>
+                <input type="email" id="forgotPasswordEmail" name="email" required>
+                
+                <button type="submit">Reset Password</button>
+            </form>
+            <div class="form-switch">
+                <a href="#" id="backToLogin">Back to Login</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+        const showSignup = document.getElementById('showSignup');
+        const showLogin = document.getElementById('showLogin');
+        const showForgotPassword = document.getElementById('showForgotPassword');
+        const backToLogin = document.getElementById('backToLogin');
+
+        const loginFormElement = document.getElementById('loginFormElement');
+        const signupFormElement = document.getElementById('signupFormElement');
+        const forgotPasswordFormElement = document.getElementById('forgotPasswordFormElement');
+
+        const loginError = document.getElementById('loginError');
+        const signupError = document.getElementById('signupError');
+        const signupSuccess = document.getElementById('signupSuccess');
+        const forgotPasswordError = document.getElementById('forgotPasswordError');
+        const forgotPasswordSuccess = document.getElementById('forgotPasswordSuccess');
+
+        showSignup.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'block';
+            forgotPasswordForm.style.display = 'none';
+        });
+
+        showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginForm.style.display = 'block';
+            signupForm.style.display = 'none';
+            forgotPasswordForm.style.display = 'none';
+        });
+
+        showForgotPassword.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'none';
+            forgotPasswordForm.style.display = 'block';
+        });
+
+        backToLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginForm.style.display = 'block';
+            signupForm.style.display = 'none';
+            forgotPasswordForm.style.display = 'none';
+        });
+
+        loginFormElement.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Simulate authentication (replace with actual authentication logic)
+            if (email === 'user@example.com' && password === 'password') {
+                window.location.href = 'booking.html'; // Redirect to booking page on successful login
+            } else {
+                loginError.textContent = 'Invalid email or password';
+                loginError.style.display = 'block';
+            }
+        });
+
+        signupFormElement.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+            if (password !== confirmPassword) {
+                signupError.textContent = 'Passwords do not match';
+                signupError.style.display = 'block';
+                signupSuccess.style.display = 'none';
+            } else {
+                // Simulate signup process (replace with actual signup logic)
+                signupSuccess.textContent = 'Account created successfully! You can now log in.';
+                signupSuccess.style.display = 'block';
+                signupError.style.display = 'none';
+                signupFormElement.reset();
+            }
+        });
+
+        forgotPasswordFormElement.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('forgotPasswordEmail').value;
+
+            // Simulate password reset process (replace with actual reset logic)
+            forgotPasswordSuccess.textContent = 'Password reset instructions sent to your email.';
+            forgotPasswordSuccess.style.display = 'block';
+            forgotPasswordError.style.display = 'none';
+            forgotPasswordFormElement.reset();
+        });
+    </script>
+</body>
+</html>

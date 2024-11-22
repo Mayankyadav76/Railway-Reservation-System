@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book or Cancel a Ticket - Railway Reservation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://images.unsplash.com/photo-1474487548417-781cb71495f3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8dHJhaW58fHx8fHwxNjg2NTk0NjE5&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1080');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: rgba(0, 48, 73, 0.9);
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        nav {
+            background-color: rgba(0, 48, 73, 0.7);
+            padding: 10px;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 10px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        main {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: grid;
+            gap: 10px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #FFA500;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #FF8C00;
+        }
+        footer {
+            background-color: rgba(0, 48, 73, 0.9);
+            color: white;
+            text-align: center;
+            padding: 1em;
+            margin-top: 20px;
+        }
+        #bookingResult, #cancellationResult {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .success {
+            background-color: rgba(212, 237, 218, 0.9);
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: rgba(248, 215, 218, 0.9);
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .passenger-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .remove-passenger {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #cancelTicketSection {
+            display: none;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Railway Reservation System</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="search-trains.html">Search Trains</a></li>
+            <li><a href="booking.html">Book or Cancel a Ticket</a></li>
+            <li><a href="pnr-status.html">PNR Status</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <main>
+            <h2>Book a Ticket</h2>
+            <form id="bookingForm">
+                <label for="from">From:</label>
+                <input type="text" id="from" name="from" required>
+
+                <label for="to">To:</label>
+                <input type="text" id="to" name="to" required>
+
+                <label for="date">Date of Travel:</label>
+                <input type="date" id="date" name="date" required>
+
+                <label for="class">Class:</label>
+                <select id="class" name="class" required>
+                    <option value="">Select a class</option>
+                    <option value="economy">Economy</option>
+                    <option value="business">Business</option>
+                    <option value="first">First Class</option>
+                </select>
+
+                <div id="passengerInputs">
+                    <label>Passenger Names:</label>
+                    <div class="passenger-input">
+                        <input type="text" name="passengers[]" required>
+                        <button type="button" class="remove-passenger" style="display: none;">-</button>
+                    </div>
+                </div>
+                <button type="button" id="addPassenger">Add Passenger</button>
+            </form>
+
+            <div id="bookingResult"></div>
+
+            <div class="action-buttons">
+                <button id="bookTicketButton">Book a Ticket</button>
+                <button id="showCancelForm">Cancel a Ticket</button>
+            </div>
+
+            <div id="cancelTicketSection">
+                <h2>Cancel a Ticket</h2>
+                <form id="cancellationForm">
+                    <label for="pnr">PNR Number:</label>
+                    <input type="text" id="pnr" name="pnr" required>
+
+                    <button type="submit">Cancel Ticket</button>
+                </form>
+
+                <div id="cancellationResult"></div>
+            </div>
+        </main>
+    </div>
+    <footer>
+        <p>&copy; 2023 Railway Reservation System. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const bookingForm = document.getElementById('bookingForm');
+        const cancellationForm = document.getElementById('cancellationForm');
+        const bookingResult = document.getElementById('bookingResult');
+        const cancellationResult = document.getElementById('cancellationResult');
+        const addPassengerButton = document.getElementById('addPassenger');
+        const passengerInputs = document.getElementById('passengerInputs');
+        const bookTicketButton = document.getElementById('bookTicketButton');
+        const showCancelFormButton = document.getElementById('showCancelForm');
+        const cancelTicketSection = document.getElementById('cancelTicketSection');
+
+        function addPassengerInput() {
+            const newInput = document.createElement('div');
+            newInput.className = 'passenger-input';
+            newInput.innerHTML = `
+                <input type="text" name="passengers[]" required>
+                <button type="button" class="remove-passenger">-</button>
+            `;
+            passengerInputs.appendChild(newInput);
+            updateRemoveButtons();
+        }
+
+        function updateRemoveButtons() {
+            const removeButtons = document.querySelectorAll('.remove-passenger');
+            removeButtons.forEach((button, index) => {
+                if (index === 0 && removeButtons.length === 1) {
+                    button.style.display = 'none';
+                } else {
+                    button.style.display = 'inline-block';
+                }
+            });
+        }
+
+        addPassengerButton.addEventListener('click', addPassengerInput);
+
+        passengerInputs.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-passenger')) {
+                e.target.parentElement.remove();
+                updateRemoveButtons();
+            }
+        });
+
+        bookTicketButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            const formData = new FormData(bookingForm);
+            const passengers = formData.getAll('passengers[]');
+            
+            // Simulate booking process
+            setTimeout(() => {
+                const pnr = Math.random().toString(36).substr(2, 8).toUpperCase();
+                bookingResult.innerHTML = `
+                    <div class="success">
+                        <h3>Booking Successful!</h3>
+                        <p>PNR Number: ${pnr}</p>
+                        <p>From: ${formData.get('from')}</p>
+                        <p>To: ${formData.get('to')}</p>
+                        <p>Date: ${formData.get('date')}</p>
+                        <p>Class: ${formData.get('class')}</p>
+                        <p>Passengers: ${passengers.join(', ')}</p>
+                    </div>
+                `;
+                bookingResult.style.display = 'block';
+                bookingForm.reset();
+            }, 1000);
+        });
+
+        cancellationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const pnr = document.getElementById('pnr').value;
+            
+            // Simulate cancellation process
+            setTimeout(() => {
+                if (Math.random() > 0.5) {
+                    cancellationResult.innerHTML = `
+                        <div class="success">
+                            <h3>Cancellation Successful</h3>
+                            <p>Your ticket with PNR ${pnr} has been cancelled.</p>
+                        </div>
+                    `;
+                } else {
+                    cancellationResult.innerHTML = `
+                        <div class="error">
+                            <h3>Cancellation Failed</h3>
+                            <p>Unable to find a ticket with PNR ${pnr}. Please check the PNR and try again.</p>
+                        </div>
+                    `;
+                }
+                cancellationResult.style.display = 'block';
+                cancellationForm.reset();
+            }, 1000);
+        });
+
+        bookTicketButton.addEventListener('click', function() {
+            bookingForm.style.display = 'grid';
+            cancelTicketSection.style.display = 'none';
+            bookingResult.style.display = 'none';
+            cancellationResult.style.display = 'none';
+        });
+
+        showCancelFormButton.addEventListener('click', function() {
+            bookingForm.style.display = 'none';
+            cancelTicketSection.style.display = 'block';
+            bookingResult.style.display = 'none';
+            cancellationResult.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

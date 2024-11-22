@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Trains - Railway Reservation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://images.unsplash.com/photo-1474487548417-781cb71495f3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8dHJhaW58fHx8fHwxNjg2NTk0NjE5&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1080');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: rgba(0, 48, 73, 0.9);
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        nav {
+            background-color: rgba(0, 48, 73, 0.7);
+            padding: 10px;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 10px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        main {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: grid;
+            gap: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #FFA500;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #FF8C00;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        #searchResults {
+            display: none;
+        }
+        footer {
+            background-color: rgba(0, 48, 73, 0.9);
+            color: white;
+            text-align: center;
+            padding: 1em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Railway Reservation System</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="search-trains.html">Search Trains</a></li>
+            <li><a href="booking.html">Book a Ticket</a></li>
+            <li><a href="pnr-status.html">PNR Status</a></li>
+            <li><a href="login.html">Login</a></li>
+
+        </ul>
+    </nav>
+    <div class="container">
+        <main>
+            <h2>Search Trains</h2>
+            <form id="searchForm">
+                <label for="from">From:</label>
+                <input type="text" id="from" name="from" required>
+
+                <label for="to">To:</label>
+                <input type="text" id="to" name="to" required>
+
+                <label for="date">Date of Travel:</label>
+                <input type="date" id="date" name="date" required>
+
+                <button type="submit">Search Trains</button>
+            </form>
+
+            <div id="searchResults">
+                <h3>Search Results</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Train Number</th>
+                            <th>Train Name</th>
+                            <th>Departure</th>
+                            <th>Arrival</th>
+                            <th>Duration</th>
+                            <th>Available Seats</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsBody">
+                        <!-- Search results will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <footer>
+        <p>&copy; 2023 Railway Reservation System. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const searchForm = document.getElementById('searchForm');
+        const searchResults = document.getElementById('searchResults');
+        const resultsBody = document.getElementById('resultsBody');
+
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const from = document.getElementById('from').value;
+            const to = document.getElementById('to').value;
+            const date = document.getElementById('date').value;
+
+            // Simulate API call to fetch train data
+            setTimeout(() => {
+                const mockResults = [
+                    { number: '12345', name: 'Express 1', departure: '08:00', arrival: '12:00', duration: '4h 0m', seats: 42 },
+                    { number: '67890', name: 'Superfast 2', departure: '10:30', arrival: '13:45', duration: '3h 15m', seats: 18 },
+                    { number: '24680', name: 'Intercity 3', departure: '14:15', arrival: '18:30', duration: '4h 15m', seats: 56 },
+                ];
+
+                resultsBody.innerHTML = '';
+                mockResults.forEach(train => {
+                    const row = `
+                        <tr>
+                            <td>${train.number}</td>
+                            <td>${train.name}</td>
+                            <td>${train.departure}</td>
+                            <td>${train.arrival}</td>
+                            <td>${train.duration}</td>
+                            <td>${train.seats}</td>
+                        </tr>
+                    `;
+                    resultsBody.innerHTML += row;
+                });
+
+                searchResults.style.display = 'block';
+            }, 1000); // Simulate network delay
+        });
+    </script>
+</body>
+</html>
